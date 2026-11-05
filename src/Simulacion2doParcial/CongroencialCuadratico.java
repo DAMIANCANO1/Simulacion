@@ -51,7 +51,7 @@ public class CongroencialCuadratico {
         if (x < m && par == 0 && impar == 1) {
             for (int i = 0; i < N; i++) {
                 int xi = (int) (((long) a * x * x + (long) b * x + c) % m);
-                double ri = (double) xi / (m - 1);
+                double ri = (double) xi / m;
                 resultados.add(ri);
                 palabrax += "X" + (i + 1) + " = " + xi + ", R" + (i + 1) + " = " + ri + "\n";
                 x = xi;

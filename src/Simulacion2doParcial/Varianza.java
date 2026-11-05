@@ -99,7 +99,7 @@ public class Varianza {
 
         double varianzaEsperada = 1.0 / 12.0;
 
-        //  Cantidad de datos y grados de libertad
+        // Cantidad de datos y grados de libertad.
         int cantidadDatos = datos.size();
         int gradosLibertad = cantidadDatos - 1;
         int filaTabla = buscarFila(gradosLibertad);
@@ -111,14 +111,14 @@ public class Varianza {
             return;
         }
 
-        //  Media: media = suma de los datos / cantidad de datos
+        // Media = suma de los datos / cantidad de datos.
         double suma = 0.0;
         for (int i = 0; i < cantidadDatos; i++) {
             suma = suma + datos.get(i);
         }
         double media = suma / cantidadDatos;
 
-        //  Suma de las diferencias al cuadrado
+        // Sumamos las diferencias al cuadrado.
         double sumaDiferencias = 0.0;
         for (int i = 0; i < cantidadDatos; i++) {
             double diferencia = datos.get(i) - media;
@@ -126,10 +126,10 @@ public class Varianza {
             sumaDiferencias = sumaDiferencias + diferenciaAlCuadrado;
         }
 
-        // Varianza: V(ri) = suma / (n - 1)
+        // Varianza = suma de diferencias / (n - 1).
         double varianza = sumaDiferencias / gradosLibertad;
 
-        //n - 1) * V(ri) / (1 / 12)
+        // Fórmula de la prueba de varianza.
         double resultadoFormula = (gradosLibertad * varianza) / varianzaEsperada;
         int nivelConfianza;
         while (true) {
@@ -174,12 +174,9 @@ public class Varianza {
             return;
         }
 
-        // Limites para la varianza
+        // Valores de la tabla para comparar el resultado.
         double valorInferior = TABLA_INFERIOR[filaTabla][columnaTabla];
         double valorSuperior = TABLA_SUPERIOR[filaTabla][columnaTabla];
-        double limiteInferior = valorInferior / (12 * gradosLibertad);
-        double limiteSuperior = valorSuperior / (12 * gradosLibertad);
-
         boolean resultadoAceptaH0 = true;
         if (resultadoFormula < valorInferior || resultadoFormula > valorSuperior) {
             resultadoAceptaH0 = false;
@@ -189,8 +186,8 @@ public class Varianza {
                 + "\nn = " + cantidadDatos
                 + "\nGrados de libertad = " + gradosLibertad
                 + "\nResultado de la fórmula = " + resultadoFormula
-                + "\nLímite inferior = " + limiteInferior
-                + "\nLímite superior = " + limiteSuperior
+                + "\nLímite inferior de la tabla = " + valorInferior
+                + "\nLímite superior de la tabla = " + valorSuperior
                 + "\n\nH0: σ² = 1/12";
 
         if (resultadoAceptaH0) {
@@ -202,7 +199,7 @@ public class Varianza {
         JOptionPane.showMessageDialog(null, resultado);
     }
 
-    private static int buscarFila(int gradosLibertad) {
+    public static int buscarFila(int gradosLibertad) {
         for (int i = 0; i < GRADOS_LIBERTAD.length; i++) {
             if (GRADOS_LIBERTAD[i] == gradosLibertad) {
                 return i;

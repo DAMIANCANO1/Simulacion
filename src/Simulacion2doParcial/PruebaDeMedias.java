@@ -42,19 +42,18 @@ public class PruebaDeMedias {
             JOptionPane.showMessageDialog(null, "Ingrese un número del 1 al 5.");
         }
 
-        double[] valores;
+        double z;
         if (opcion == 1) {
-            valores = new double[]{1.28, 0.20};
+            z = 1.28;
         } else if (opcion == 2) {
-            valores = new double[]{1.44, 0.15};
+            z = 1.44;
         } else if (opcion == 3) {
-            valores = new double[]{1.64, 0.10};
+            z = 1.64;
         } else if (opcion == 4) {
-            valores = new double[]{1.96, 0.05};
+            z = 1.96;
         } else {
-            valores = new double[]{2.58, 0.01};
+            z = 2.58;
         }
-        double z = valores[0];
         double multi = 1.0 / Math.sqrt(12 * n);
         double limiteInferior = 0.5 - (z * multi);
         double limiteSuperior = 0.5 + (z * multi);

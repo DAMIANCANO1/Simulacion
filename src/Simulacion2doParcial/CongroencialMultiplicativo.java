@@ -52,7 +52,7 @@ public class CongroencialMultiplicativo {
                 repetido = true;
             } else {
                 numerosGenerados.add(X);
-                double ri = (double) X / (m - 1);
+                double ri = (double) X / m;
                 resultados.add(ri);
                 palabrax += "X" + contador + " = " + X + " R" + contador + " = " + ri+"\n";
                 contador++;

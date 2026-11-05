@@ -12,7 +12,17 @@ public class CuadradosMedios {
             return new ArrayList<>();
         }
         semilla = semilla.trim();
-        if (!semilla.matches("[1-9][0-9]{1,8}")) {
+        boolean formatoCorrecto = semilla.length() >= 2 && semilla.length() <= 9;
+        for (int i = 0; i < semilla.length(); i++) {
+            char caracter = semilla.charAt(i);
+            if (caracter < '0' || caracter > '9') {
+                formatoCorrecto = false;
+            }
+        }
+        if (semilla.length() == 0 || semilla.charAt(0) == '0') {
+            formatoCorrecto = false;
+        }
+        if (!formatoCorrecto) {
             JOptionPane.showMessageDialog(null, "La semilla debe tener de 2 a 9 dígitos.");
             return new ArrayList<>();
         }

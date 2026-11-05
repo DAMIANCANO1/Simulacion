@@ -58,42 +58,57 @@ public class Menu {
     }
 
     public static void seleccionarPrueba(ArrayList<Double> datos) {
-        String texto = JOptionPane.showInputDialog(null, "Seleccione la prueba que desea realizar" +
-                "\n1: Prueba de medias" +
-                "\n2: Prueba de varianza" +
-                "\n3: Prueba Chi-cuadrada" +
-                "\n4: Prueba Kolmogorov-Smirnov" +
-                "\n5: Prueba de corridas arriba y abajo" +
-                "\n6: Salir");
-        if (texto == null) return;
-        int opcion;
-        try {
-            opcion = Integer.parseInt(texto.trim());
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Ingrese un número del 1 al 6.");
-            return;
-        }
+        while (true) {
+            String texto = JOptionPane.showInputDialog(null,
+                    "Los datos generados se utilizarán en todas las pruebas."
+                            + "\nSeleccione la prueba que desea realizar"
+                            + "\n1: Prueba de medias"
+                            + "\n2: Prueba de varianza"
+                            + "\n3: Prueba Chi-cuadrada"
+                            + "\n4: Prueba Kolmogorov-Smirnov"
+                            + "\n5: Prueba de corridas arriba y abajo"
+                            + "\n6: Corridas arriba y abajo de la media"
+                            + "\n7: Prueba de Poker"
+                            + "\n8: Salir");
+            if (texto == null) {
+                return;
+            }
 
-        switch (opcion) {
-            case 1:
-                PruebaDeMedias.ejecutar(datos);
-                break;
-            case 2:
-                Varianza.ejecutar(datos);
-                break;
-            case 3:
-                PruebaChi2.ejecutar(datos);
-                break;
-            case 4:
-                kolmogorov.ejecutar(datos);
-                break;
-            case 5:
-                PruebaCorridas.ejecutar(datos);
-                break;
-            case 6:
-                break;
-            default:
-                JOptionPane.showMessageDialog(null, "Opción no válida.");
+            int opcion;
+            try {
+                opcion = Integer.parseInt(texto.trim());
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Ingrese un número del 1 al 8.");
+                continue;
+            }
+
+            switch (opcion) {
+                case 1:
+                    PruebaDeMedias.ejecutar(datos);
+                    break;
+                case 2:
+                    Varianza.ejecutar(datos);
+                    break;
+                case 3:
+                    PruebaChi2.ejecutar(datos);
+                    break;
+                case 4:
+                    kolmogorov.ejecutar(datos);
+                    break;
+                case 5:
+                    PruebaCorridas.ejecutar(datos);
+                    break;
+                case 6:
+                    PruebaArribaAbajoMedia.ejecutar(datos);
+                    break;
+                case 7:
+                    PruebaPoker.ejecutar(datos);
+                    break;
+                case 8:
+                    return;
+                default:
+                    JOptionPane.showMessageDialog(null, "Opción no válida.");
+            }
         }
     }
 }

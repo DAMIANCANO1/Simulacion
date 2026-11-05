@@ -1,6 +1,6 @@
 package Simulacion2doParcial;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -70,8 +70,7 @@ public class kolmogorov {
         StringBuilder tabla = new StringBuilder();
 
         tabla.append("PRUEBA DE KOLMOGOROV-SMIRNOV\n\n");
-        tabla.append(String.format("%-4s %-10s %-10s %-14s %-12s %-12s%n",
-                "i", "i/n", "ri", "(i-1)/n", "D+", "D-"));
+        tabla.append("i\ti/n\tri\t(i-1)/n\tD+\tD-\n");
         tabla.append("----------------------------------------------------------------\n");
 
         for (int i = 0; i < n; i++) {
@@ -87,16 +86,18 @@ public class kolmogorov {
                 dMenos = dNegativo;
             }
 
-            tabla.append(String.format("%-4d %-10s %-10s %-14s %-12s %-12s%n",
-                    i + 1,
-                    formato.format(iEntreN),
-                    formato.format(orden[i]),
-                    formato.format(anteriorEntreN),
-                    formato.format(dPositivo),
-                    formato.format(dNegativo)));
+            tabla.append(i + 1).append("\t")
+                    .append(formato.format(iEntreN)).append("\t")
+                    .append(formato.format(orden[i])).append("\t")
+                    .append(formato.format(anteriorEntreN)).append("\t")
+                    .append(formato.format(dPositivo)).append("\t")
+                    .append(formato.format(dNegativo)).append("\n");
         }
 
-        double dCalculada = Math.max(dMas, dMenos);
+        double dCalculada = dMas;
+        if (dMenos > dMas) {
+            dCalculada = dMenos;
+        }
         double dTabla = obtenerValorTabla(n, confianza);
 
         double alfa = obtenerAlfa(confianza);
@@ -115,13 +116,11 @@ public class kolmogorov {
             tabla.append("\nSe rechaza H0.");
         }
 
-        JTextArea area = new JTextArea(tabla.toString(), 25, 85);
-        area.setEditable(false);
-        JOptionPane.showMessageDialog(null, new JScrollPane(area),
+        JOptionPane.showMessageDialog(null, tabla.toString(),
                 "Kolmogorov-Smirnov", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    private static void ordenar(double[] numeros) {
+    public static void ordenar(double[] numeros) {
         for (int i = 0; i < numeros.length - 1; i++) {
             for (int j = 0; j < numeros.length - 1 - i; j++) {
                 if (numeros[j] > numeros[j + 1]) {
@@ -133,7 +132,7 @@ public class kolmogorov {
         }
     }
 
-    private static int elegirConfianza() {
+    public static int elegirConfianza() {
         String texto = JOptionPane.showInputDialog(null,
                 "Seleccione el nivel de confianza:"
                         + "\n1: 80% (alfa = 0.20)"
@@ -158,7 +157,7 @@ public class kolmogorov {
         return -1;
     }
 
-    private static double obtenerValorTabla(int n, int columna) {
+    public static double obtenerValorTabla(int n, int columna) {
         // Las columnas 90%, 95% y 99% corresponden a la imagen proporcionada.
         if (columna >= 2) {
             for (int i = 0; i < TAMANOS.length; i++) {
@@ -174,7 +173,7 @@ public class kolmogorov {
         return constantes[columna] / Math.sqrt(n);
     }
 
-    private static String confianzaTexto(int confianza) {
+    public static String confianzaTexto(int confianza) {
         if (confianza == 0) {
             return "80%";
         }
@@ -190,7 +189,7 @@ public class kolmogorov {
         return "99%";
     }
 
-    private static double obtenerAlfa(int confianza) {
+    public static double obtenerAlfa(int confianza) {
         double[] alfas = {0.20, 0.15, 0.10, 0.05, 0.01};
         return alfas[confianza];
     }

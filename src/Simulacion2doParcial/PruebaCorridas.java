@@ -77,7 +77,7 @@ public class PruebaCorridas {
                 "Prueba de corridas", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    private static int elegirConfianza() {
+    public static int elegirConfianza() {
         String texto = JOptionPane.showInputDialog(null,
                 "Seleccione el nivel de confianza:"
                         + "\n1: 80%"
@@ -101,17 +101,17 @@ public class PruebaCorridas {
         return -1;
     }
 
-    private static double obtenerZ(int confianza) {
+    public static double obtenerZ(int confianza) {
         double[] valores = {1.282, 1.440, 1.645, 1.960, 2.576};
         return valores[confianza];
     }
 
-    private static double confianzaValor(int confianza) {
+    public static double confianzaValor(int confianza) {
         double[] valores = {0.80, 0.85, 0.90, 0.95, 0.99};
         return valores[confianza];
     }
 
-    private static String confianzaTexto(int confianza) {
+    public static String confianzaTexto(int confianza) {
         String[] valores = {"80%", "85%", "90%", "95%", "99%"};
         return valores[confianza];
     }

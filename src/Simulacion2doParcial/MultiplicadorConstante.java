@@ -16,8 +16,29 @@ public class MultiplicadorConstante {
         }
         semillaConstante = semillaConstante.trim();
         semillaVariable = semillaVariable.trim();
-        if (!semillaConstante.matches("[1-9][0-9]{1,8}")
-                || !semillaVariable.matches("[1-9][0-9]{1,8}")) {
+        boolean constanteCorrecta = semillaConstante.length() >= 2
+                && semillaConstante.length() <= 9;
+        boolean variableCorrecta = semillaVariable.length() >= 2
+                && semillaVariable.length() <= 9;
+        for (int i = 0; i < semillaConstante.length(); i++) {
+            char caracter = semillaConstante.charAt(i);
+            if (caracter < '0' || caracter > '9') {
+                constanteCorrecta = false;
+            }
+        }
+        for (int i = 0; i < semillaVariable.length(); i++) {
+            char caracter = semillaVariable.charAt(i);
+            if (caracter < '0' || caracter > '9') {
+                variableCorrecta = false;
+            }
+        }
+        if (semillaConstante.length() == 0 || semillaConstante.charAt(0) == '0') {
+            constanteCorrecta = false;
+        }
+        if (semillaVariable.length() == 0 || semillaVariable.charAt(0) == '0') {
+            variableCorrecta = false;
+        }
+        if (!constanteCorrecta || !variableCorrecta) {
             JOptionPane.showMessageDialog(null, "Las semillas deben tener de 2 a 9 dígitos.");
             return new ArrayList<>();
         }

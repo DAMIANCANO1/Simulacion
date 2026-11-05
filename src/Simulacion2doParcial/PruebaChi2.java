@@ -1,6 +1,6 @@
 package Simulacion2doParcial;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -96,8 +96,7 @@ public class PruebaChi2 {
         DecimalFormat formato = new DecimalFormat("0.000");
         StringBuilder tabla = new StringBuilder();
         tabla.append("PRUEBA CHI-CUADRADA DE UNIFORMIDAD\n\n");
-        tabla.append(String.format("%-18s %-8s %-12s %-18s%n",
-                "Intervalo", "Oi", "G = n/m", "(Ei - Oi)^2 / Ei"));
+        tabla.append("Intervalo\tOi\tG = n/m\t(Ei - Oi)^2 / Ei\n");
         tabla.append("------------------------------------------------------------\n");
 
         for (int i = 0; i < intervalos; i++) {
@@ -109,9 +108,10 @@ public class PruebaChi2 {
 
             String intervaloTexto = "[" + formato.format(inicio)
                     + " - " + formato.format(fin) + "]";
-            tabla.append(String.format("%-18s %-8d %-12s %-18s%n",
-                    intervaloTexto, observados[i],
-                    formato.format(esperados), formato.format(termino)));
+            tabla.append(intervaloTexto).append("\t")
+                    .append(observados[i]).append("\t")
+                    .append(formato.format(esperados)).append("\t")
+                    .append(formato.format(termino)).append("\n");
         }
 
         double chiTabla = TABLA[fila][columna];
@@ -131,13 +131,11 @@ public class PruebaChi2 {
             tabla.append("\nSe rechaza H0.");
         }
 
-        JTextArea area = new JTextArea(tabla.toString(), 20, 70);
-        area.setEditable(false);
-        JOptionPane.showMessageDialog(null, new JScrollPane(area),
+        JOptionPane.showMessageDialog(null, tabla.toString(),
                 "Prueba Chi2", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    private static int elegirNivel() {
+    public static int elegirNivel() {
         String texto = JOptionPane.showInputDialog(null,
                 "Seleccione el nivel de confianza:"
                         + "\n1: 80%"
@@ -170,7 +168,7 @@ public class PruebaChi2 {
         return -1;
     }
 
-    private static int buscarFila(int gradosLibertad) {
+    public static int buscarFila(int gradosLibertad) {
         for (int i = 0; i < GRADOS_LIBERTAD.length; i++) {
             if (GRADOS_LIBERTAD[i] == gradosLibertad) {
                 return i;
@@ -179,7 +177,7 @@ public class PruebaChi2 {
         return -1;
     }
 
-    private static String confianzaTexto(int columna) {
+    public static String confianzaTexto(int columna) {
         if (columna == 0) {
             return "80%";
         }

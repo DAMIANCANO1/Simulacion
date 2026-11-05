@@ -48,7 +48,7 @@ public class lineal {
 
         for (int i = 0; i < 10; i++) {
             X = (int) (((long) a * X + c) % m);
-            ri = (double) X / (m - 1);
+            ri = (double) X / m;
             resultados.add(ri);
             palabrax = palabrax + "X" + i + " " + X + " R" + i + " " + ri + "\n";
         }

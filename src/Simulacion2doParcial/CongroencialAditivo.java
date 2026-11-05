@@ -5,8 +5,8 @@ import java.util.ArrayList;
 
 public class CongroencialAditivo {
     public static ArrayList<Double> generar() {
-        //ecuacion es xi = (xi-1 + xi-n) modulo (m)
-        //minimo se requieren minimo 5 datos de indices Xi
+        // Fórmula: Xi = (Xi-1 + Xi-n) mod m.
+        // Se necesitan por lo menos 5 valores iniciales.
 
         ArrayList<Integer> numerosIngresados = new ArrayList<>();
         String textoM = JOptionPane.showInputDialog(null, "Ingrese el valor de m (mayor que 1)");
@@ -26,8 +26,6 @@ public class CongroencialAditivo {
 
         int contador = 0;
 
-        //se genera un bucle infinito ya que no sabemos hasta cuando el usuario dejara de
-        //ingresar numeros y el usuario tiene el poder de decidir que ya no desea ingresar mas
         while (true) {
             String texto = JOptionPane.showInputDialog(null, "Ingrese un número para X" + contador
                     + "\n o ingrese -1 para terminar de ingresar números");
@@ -45,12 +43,8 @@ public class CongroencialAditivo {
                 if (numerosIngresados.size() < 5) {
 
                     JOptionPane.showMessageDialog(null, "Debe ingresar al menos 5 numeros");
-                    //continue sirve para que el ciclo while continue y no se salga del ciclo
-                    //si en caso aun no se completa nos numeros minimos requeridos
                     continue;
                 }
-                //si se completan los numeros minimos requeridos se sale del ciclo while
-                //asumiendo que el usuario ingreso mas de 5 numeros obligatorios para funcionar
                 break;
             } else if (numero >= 0 && numero < m) {
                 numerosIngresados.add(numero);
@@ -60,29 +54,20 @@ public class CongroencialAditivo {
             }
 
         }
-        //declaramos la longitud de nuestra ARRAYL tomando como variable N
         int n = numerosIngresados.size();
 
         String palabrax = "";
         ArrayList<Double> resultados = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            //el contador sigue subiendo unicamente para mejor comprension al
-            //momento de imprimir en pantalla
             contador++;
-            //la ecuacion dice que queremos obtener una posicion antes de la actual
-            //luego le sumamos la cantidad de numeros que hay en el arraylist y le
-            //restamos N
             int posicionAnterior = numerosIngresados.size() - 1;
             int posicionHaceN = numerosIngresados.size() - n;
             int x = (numerosIngresados.get(posicionAnterior)
                     + numerosIngresados.get(posicionHaceN)) % m;
-            //creamos la variable r para tener nuestros decimales
-            //donde x se divide entre la variable m que ingresa el usuario y se le resta 1
-            double r = (double) x / (m - 1);
+            //Convertimos x en un numero entre 0 y menor que 1
+            double r = (double) x / m;
             resultados.add(r);
-            //el String unicamente es para ir guardando los resultados y al final mostrarlos en un JOptionPane
             palabrax += "X" + contador + " = " + x + " r" + contador + " = " + r + "\n";
-            //agregamos x a nuestro array para la siguiente iteracion
             numerosIngresados.add(x);
 
         }

@@ -14,7 +14,27 @@ public class ProductosMedios {
         }
         semilla1 = semilla1.trim();
         semilla2 = semilla2.trim();
-        if (!semilla1.matches("[1-9][0-9]{1,8}") || !semilla2.matches("[1-9][0-9]{1,8}")) {
+        boolean semilla1Correcta = semilla1.length() >= 2 && semilla1.length() <= 9;
+        boolean semilla2Correcta = semilla2.length() >= 2 && semilla2.length() <= 9;
+        for (int i = 0; i < semilla1.length(); i++) {
+            char caracter = semilla1.charAt(i);
+            if (caracter < '0' || caracter > '9') {
+                semilla1Correcta = false;
+            }
+        }
+        for (int i = 0; i < semilla2.length(); i++) {
+            char caracter = semilla2.charAt(i);
+            if (caracter < '0' || caracter > '9') {
+                semilla2Correcta = false;
+            }
+        }
+        if (semilla1.length() == 0 || semilla1.charAt(0) == '0') {
+            semilla1Correcta = false;
+        }
+        if (semilla2.length() == 0 || semilla2.charAt(0) == '0') {
+            semilla2Correcta = false;
+        }
+        if (!semilla1Correcta || !semilla2Correcta) {
             JOptionPane.showMessageDialog(null, "Las semillas deben tener de 2 a 9 dígitos.");
             return new ArrayList<>();
         }
