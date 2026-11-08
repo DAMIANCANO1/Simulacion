@@ -69,7 +69,8 @@ public class Menu {
                             + "\n5: Prueba de corridas arriba y abajo"
                             + "\n6: Corridas arriba y abajo de la media"
                             + "\n7: Prueba de Poker"
-                            + "\n8: Salir");
+                            + "\n8: Prueba de huecos"
+                            + "\n9: Salir");
             if (texto == null) {
                 return;
             }
@@ -78,7 +79,7 @@ public class Menu {
             try {
                 opcion = Integer.parseInt(texto.trim());
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Ingrese un número del 1 al 8.");
+                JOptionPane.showMessageDialog(null, "Ingrese un número del 1 al 9.");
                 continue;
             }
 
@@ -105,6 +106,9 @@ public class Menu {
                     PruebaPoker.ejecutar(datos);
                     break;
                 case 8:
+                    PruebaHuecos.ejecutar(datos);
+                    break;
+                case 9:
                     return;
                 default:
                     JOptionPane.showMessageDialog(null, "Opción no válida.");
