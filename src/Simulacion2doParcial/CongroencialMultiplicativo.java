@@ -34,7 +34,10 @@ public class CongroencialMultiplicativo {
         int K = kEntrada;
         int G = gEntrada;
 
-        int m = (int) Math.pow(2, G);
+        int m = 1;
+        for (int i = 0; i < G; i++) {
+            m = m * 2;
+        }
         int a = 3 + 8 * K;
         if (X >= m) {
             JOptionPane.showMessageDialog(null, "X debe ser menor que m = 2^G.");
@@ -48,7 +51,14 @@ public class CongroencialMultiplicativo {
         ArrayList<Double> resultados = new ArrayList<>();
         do {
             X = (int) (((long) a * X) % m);
-            if (numerosGenerados.contains(X)) {
+            boolean numeroRepetido = false;
+            for (int i = 0; i < numerosGenerados.size(); i++) {
+                if (numerosGenerados.get(i) == X) {
+                    numeroRepetido = true;
+                }
+            }
+
+            if (numeroRepetido) {
                 repetido = true;
             } else {
                 numerosGenerados.add(X);
