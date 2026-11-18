@@ -3,16 +3,18 @@ package simulacion;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-public class Main {
-    public static void main(String[] args) {
+public class Principal {
+    public static void main(String[] argumentos) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 try {
                     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                } catch (Exception error) {
+                } catch (Exception excepcion) {
                 }
-                new MainWindow().setVisible(true);
+                new VentanaPrincipal().setVisible(true);
             }
         });
     }
 }
+
+

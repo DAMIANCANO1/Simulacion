@@ -5,13 +5,13 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-public class VarianceTest {
-    private static final int[] DEGREES = {
+public class PruebaVarianza {
+    private static final int[] GRADOSLIBERTAD = {
         1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,
         21,22,23,24,25,26,27,28,29,30,40,50,60,70,80,90,100
     };
 
-    private static final double[][] LOWER = {
+    private static final double[][] LIMITE_INFERIOR_TABLA = {
         {0.016,0.004,0.001,0.000,0.000,0.000},{0.211,0.103,0.051,0.020,0.010,0.002},
         {0.584,0.352,0.216,0.115,0.072,0.024},{1.064,0.711,0.484,0.297,0.207,0.091},
         {1.610,1.145,0.831,0.554,0.412,0.210},{2.204,1.635,1.237,0.872,0.676,0.381},
@@ -33,7 +33,7 @@ public class VarianceTest {
         {82.358,77.929,74.222,70.065,67.328,61.918}
     };
 
-    private static final double[][] UPPER = {
+    private static final double[][] LIMITE_SUPERIOR_TABLA = {
         {2.706,3.841,5.024,6.635,7.879,10.828},{4.605,5.991,7.378,9.210,10.597,13.816},
         {6.251,7.815,9.348,11.345,12.838,16.266},{7.779,9.488,11.143,13.277,14.860,18.467},
         {9.236,11.070,12.833,15.086,16.750,20.515},{10.645,12.592,14.449,16.812,18.548,22.458},
@@ -55,62 +55,64 @@ public class VarianceTest {
         {118.498,124.342,129.561,135.807,140.169,149.449}
     };
 
-    public static String execute(Component owner, ArrayList<Double> data) {
-        if (data == null || data.size() < 2) {
-            JOptionPane.showMessageDialog(owner, "Se necesitan al menos 2 datos.");
+    public static String ejecutar(Component propietario, ArrayList<Double> datos) {
+        if (datos == null || datos.size() < 2) {
+            JOptionPane.showMessageDialog(propietario, "Se necesitan al menos 2 datos.");
             return null;
         }
-        int df = data.size() - 1;
-        int row = findRow(df);
-        if (row < 0) {
-            JOptionPane.showMessageDialog(owner, "No puede ejecutarse: los grados de libertad no existen en la tabla.");
+        int gradosLibertad = datos.size() - 1;
+        int fila = buscarFila(gradosLibertad);
+        if (fila < 0) {
+            JOptionPane.showMessageDialog(propietario, "No puede ejecutarse: los grados de libertad no existen en la tabla.");
             return null;
         }
-        int confidence = ConfidenceHelper.choose(owner, false);
-        if (confidence < 0) return null;
-        double sum = 0;
-        for (int i = 0; i < data.size(); i++) sum += data.get(i);
-        double mean = sum / data.size();
+        int nivelConfianza = AyudanteConfianza.elegir(propietario, false);
+        if (nivelConfianza < 0) return null;
+        double suma = 0;
+        for (int i = 0; i < datos.size(); i++) suma += datos.get(i);
+        double media = suma / datos.size();
         double squareSum = 0;
-        for (int i = 0; i < data.size(); i++) {
-            double diff = data.get(i) - mean;
+        for (int i = 0; i < datos.size(); i++) {
+            double diff = datos.get(i) - media;
             squareSum += diff * diff;
         }
-        double variance = squareSum / df;
-        double result = df * variance / (1.0 / 12.0);
-        int[] confidenceColumns = {0, 1, 2, 4};
-        int column = confidenceColumns[confidence];
-        double lower = LOWER[row][column];
-        double upper = UPPER[row][column];
-        String[] labels = {"80%", "90%", "95%", "99%"};
-        StringBuilder report = new StringBuilder();
-        report.append("PRUEBA DE VARIANZA\n\nDatos utilizados:\n");
-        appendData(report, data);
-        report.append("\nMedia = ").append(mean);
-        report.append("\nVarianza muestral = ").append(variance);
-        report.append("\nVarianza esperada = 1/12");
-        report.append("\nResultado = (n-1)*varianza/(1/12) = ").append(result);
-        report.append("\nGrados de libertad = ").append(df);
-        report.append("\nLimite inferior = ").append(lower);
-        report.append("\nLimite superior = ").append(upper);
-        report.append("\nNivel de confianza = ").append(labels[confidence]);
-        report.append("\n\nHipotesis nula: sigma^2 = 1/12");
-        if (result >= lower && result <= upper) report.append("\nDecision: No se rechaza H0.");
-        else report.append("\nDecision: Se rechaza H0.");
-        return report.toString();
+        double varianza = squareSum / gradosLibertad;
+        double resultado = gradosLibertad * varianza / (1.0 / 12.0);
+        int[] columnasConfianza = {0, 1, 2, 4};
+        int columna = columnasConfianza[nivelConfianza];
+        double limiteInferior = LIMITE_INFERIOR_TABLA[fila][columna];
+        double limiteSuperior = LIMITE_SUPERIOR_TABLA[fila][columna];
+        String[] etiquetas = {"80%", "90%", "95%", "99%"};
+        StringBuilder reporte = new StringBuilder();
+        reporte.append("PRUEBA DE VARIANZA\n\nDatos utilizados:\n");
+        agregarDatos(reporte, datos);
+        reporte.append("\nMedia = ").append(media);
+        reporte.append("\nVarianza muestral = ").append(varianza);
+        reporte.append("\nVarianza esperada = 1/12");
+        reporte.append("\nResultado = (cantidadDatos-1)*varianza/(1/12) = ").append(resultado);
+        reporte.append("\nGrados de libertad = ").append(gradosLibertad);
+        reporte.append("\nLimite inferior = ").append(limiteInferior);
+        reporte.append("\nLimite superior = ").append(limiteSuperior);
+        reporte.append("\nNivel de confianza = ").append(etiquetas[nivelConfianza]);
+        reporte.append("\n\nHipotesis nula: sigma^2 = 1/12");
+        if (resultado >= limiteInferior && resultado <= limiteSuperior) reporte.append("\nDecision: No se rechaza H0.");
+        else reporte.append("\nDecision: Se rechaza H0.");
+        return reporte.toString();
     }
 
-    private static int findRow(int df) {
-        for (int i = 0; i < DEGREES.length; i++) {
-            if (DEGREES[i] == df) return i;
+    private static int buscarFila(int gradosLibertad) {
+        for (int i = 0; i < GRADOSLIBERTAD.length; i++) {
+            if (GRADOSLIBERTAD[i] == gradosLibertad) return i;
         }
         return -1;
     }
 
-    private static void appendData(StringBuilder report, ArrayList<Double> data) {
-        for (int i = 0; i < data.size(); i++) {
-            report.append(data.get(i));
-            if (i + 1 < data.size()) report.append(", ");
+    private static void agregarDatos(StringBuilder reporte, ArrayList<Double> datos) {
+        for (int i = 0; i < datos.size(); i++) {
+            reporte.append(datos.get(i));
+            if (i + 1 < datos.size()) reporte.append(", ");
         }
     }
 }
+
+
