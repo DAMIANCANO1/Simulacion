@@ -3,8 +3,11 @@ dist/
 nbproject/private/
 *.class
 *.jar
-.idea/
+.idea/workspace.xml
+.idea/shelf/
+.idea/copilot/
 *.iml
+!untitled.iml
 out/
 bin/
 .vscode/
