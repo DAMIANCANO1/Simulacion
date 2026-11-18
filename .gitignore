@@ -1,0 +1,11 @@
+build/
+dist/
+nbproject/private/
+*.class
+*.jar
+.idea/
+*.iml
+out/
+bin/
+.vscode/
+.DS_Store
